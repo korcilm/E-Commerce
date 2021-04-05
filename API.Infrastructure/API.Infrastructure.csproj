@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20210402115724_AddProductBrandTableAndAddProductTypeTable.Designer.cs" />
     <Compile Remove="Migrations\20210402115933_AddProductBrandTableAndAddProductTypeTable.cs" />
     <Compile Remove="Migrations\20210402115933_AddProductBrandTableAndAddProductTypeTable.Designer.cs" />
+    <Compile Remove="Migrations\20210405091038_abc.cs" />
+    <Compile Remove="Migrations\20210405091038_abc.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
