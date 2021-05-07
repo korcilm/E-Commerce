@@ -11,14 +11,18 @@ import { ErrorInterceptor } from './core/interceptor/error.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { BasketComponent } from './basket/basket.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    BasketComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CommonModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,

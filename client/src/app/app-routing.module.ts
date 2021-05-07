@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BasketComponent } from './basket/basket.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { TestErrorComponent } from './core/test-error/test-error.component';
@@ -24,12 +25,13 @@ const routes: Routes = [
     component: NotFoundComponent,
     data: { breadcrumb: 'Not Found' },
   },
-  { path: 'shop', component: ShopComponent, data: { breadcrumb: 'Shop' } },
+  { path: 'shop', component: ShopComponent, data: { breadcrumb: 'shop' } },
   {
     path: 'shop/:id',
     component: ProductDetailsComponent,
     data: { breadcrumb: { alias: 'shopDetail' } },
   },
+  { path: 'basket', component: BasketComponent, data: { breadcrumb: 'basket' } },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

@@ -15,7 +15,6 @@ export class BusyService {
       bdColor: 'rgba(255,255,255,0.7)',
       color: '#222222'
     });
-    console.log(this.busyRequestConst);
   }
   idle() {
     this.busyRequestConst--;
@@ -23,6 +22,5 @@ export class BusyService {
       this.busyRequestConst = 0;
       this.spinnerService.hide();
     }
-    console.log(this.busyRequestConst);
   }
 }

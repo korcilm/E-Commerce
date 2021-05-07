@@ -25,6 +25,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
         {
+            if (basket.Id==null)
+            {
+                var newGuidValue = Guid.NewGuid();
+                basket.Id = newGuidValue.ToString();
+            }
             var updateBasket = await _basketRepository.UpdateBasketAsync(basket);
             return Ok(updateBasket);
         }

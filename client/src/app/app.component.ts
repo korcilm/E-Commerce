@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'E-Commerce';
-  constructor() { }
+  constructor(private basketService:BasketService) { }
   ngOnInit(): void {
-    // this.http.get('http://localhost:10093/api/Product').subscribe((response:IPagination)=>{
-    //   this.products=response.data;
-    // },error=>{
-    //   console.log(error);
-    // });
+    const basketId=localStorage.getItem('basket_id');
+    if (basketId) {
+      this.basketService.getBasket(basketId).subscribe(()=>{
+        console.log("initialize basket");
+      },error=>{
+        console.log(error);
+      });
+    }
   }
 }
