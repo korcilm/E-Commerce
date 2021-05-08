@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Basket, IBasket } from '../shared/models/basket';
+import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
 import { BasketService } from './basket.service';
 
 @Component({
@@ -22,4 +22,13 @@ export class BasketComponent implements OnInit {
     });
   }
 
+  removeBasketItem(item:IBasketItem){
+    this.basketService.removeItemFromBasket(item);
+  }
+  incrementItemQuantity(item:IBasketItem){
+    this.basketService.incrementItemQuantity(item);
+  }
+  decrementItemQuantity(item:IBasketItem){
+    this.basketService.decrementItemQuantity(item);
+  }
 }

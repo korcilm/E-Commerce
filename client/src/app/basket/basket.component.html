@@ -7,7 +7,7 @@
             <div class="table">
               <table class="table table-striped">
                 <thead>
-                  <tr >
+                  <tr>
                     <th scope="col">Product</th>
                     <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
@@ -27,9 +27,13 @@
                         />
                         <div class="ml-3 d-inline-block align-middle">
                           <h5>
-                            <a rotuerLink="/shop/{{item.id}}">{{item.productName}}</a>
+                            <a rotuerLink="/shop/{{ item.id }}">{{
+                              item.productName
+                            }}</a>
                           </h5>
-                          <span class="text-muted d-block">Type :{{item.type}}</span>
+                          <span class="text-muted d-block"
+                            >Type :{{ item.type }}</span
+                          >
                         </div>
                       </div>
                     </th>
@@ -40,7 +44,7 @@
                       <div
                         class="d-flex justify-content-start align-items-center"
                       >
-                        <i
+                        <i (click)="decrementItemQuantity(item)"
                           class="fa fa-minus-circle text-warning mr-2"
                           style="cursor: pointer; font-size: 2em"
                         ></i>
@@ -49,16 +53,18 @@
                           style="font-size: 1.5em"
                           >{{ item.quantity }}</span
                         >
-                        <i
+                        <i (click)="incrementItemQuantity(item)"
                           class="fa fa-plus-circle text-warning ml-2"
                           style="cursor: pointer; font-size: 2em"
                         ></i>
                       </div>
                     </td>
-                    <td class="align-middle">{{ item.price * item.quantity | currency }}</td>
+                    <td class="align-middle">
+                      {{ item.price * item.quantity | currency }}
+                    </td>
                     <td class="align-middle text-center">
                       <a class="text-danger"
-                        ><i class="fa fa-trash fa-lg"></i>
+                        ><i (click)="removeBasketItem(item)" class="fa fa-trash fa-lg" style="cursor: pointer;"></i>
                       </a>
                     </td>
                   </tr>
@@ -67,6 +73,13 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-6 offset-6 ">
+          <app-order-totals></app-order-totals>
+          <a routerLink="/checkout" class="btn btn-outline-primary btn-block">Ödeme yap </a>
+        </div>
+       
       </div>
     </div>
   </div>

@@ -12,13 +12,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptor/loading.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { BasketComponent } from './basket/basket.component';
+import { BasketModule } from './basket/basket.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BasketComponent
-  ],
+      ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -29,7 +28,8 @@ import { BasketComponent } from './basket/basket.component';
     CoreModule,
     ShopModule,
     HomeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    BasketModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},

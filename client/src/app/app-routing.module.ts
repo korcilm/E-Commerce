@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BasketComponent } from './basket/basket.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { TestErrorComponent } from './core/test-error/test-error.component';
@@ -31,7 +30,9 @@ const routes: Routes = [
     component: ProductDetailsComponent,
     data: { breadcrumb: { alias: 'shopDetail' } },
   },
-  { path: 'basket', component: BasketComponent, data: { breadcrumb: 'basket' } },
+  { path: 'basket',loadChildren:()=>import('./basket/basket.module').then(mod=>mod.BasketModule), data: { breadcrumb: 'basket' } },
+  { path: 'checkout',loadChildren:()=>import('./checkout/checkout.module').then(mod=>mod.CheckoutModule), data: { breadcrumb: 'checkout' } },
+  //{ path: 'checkout', component: CheckoutComponent, data: { breadcrumb: 'checkout' } },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

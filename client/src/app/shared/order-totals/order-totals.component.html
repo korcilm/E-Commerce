@@ -1,0 +1,22 @@
+<div class="card">
+    <h5 class="card-header">Order Details</h5>
+    <div class="card-body">
+      <p class="card-text">
+        With supporting text below as a natural lead-in to additional content.
+      </p>
+      <ul class="list-group list-group-flush" *ngIf="basketTotal != null">
+        <li class="list-group-item">
+          <span>Order Subtotal</span>
+          <span class="float-right"><strong><b>{{ basketTotal.subTotal |currency}}</b></strong></span>
+        </li>
+        <li class="list-group-item">
+          <span>Shipping and handling</span>
+          <span class="float-right"><strong><b>{{ basketTotal.shipping |currency}}</b></strong></span>
+        </li>
+        <li class="list-group-item">
+          <span>Total</span>
+          <span class="float-right"><strong><b>{{ basketTotal.total |currency}}</b></strong></span>
+        </li>
+      </ul>
+    </div>
+  </div>
