@@ -1,5 +1,6 @@
 ﻿using API.Core.DbModels.Identity;
 using API.Infrastructure.DataContext;
+using API.Infrastructure.StringInfos.ECommerceWithAngular.Infrastructure.StringInfos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -21,15 +22,40 @@ namespace API.Extensions
             builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<StoreContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.Configure<JWTInfo>(config.GetSection("JWTInfo")); // appsettings json
+
+            var jwtInfo = config.GetSection("JWTInfo").Get<JWTInfo>();
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.RequireHttpsMetadata = false; //https ile ilgili
+                opt.TokenValidationParameters = new TokenValidationParameters()
                 {
+                    ValidIssuer = jwtInfo.Issuer,
+                    ValidAudience = jwtInfo.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtInfo.SecurityKey)), // key değerini belirle
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
-                    ValidIssuer = config["Token:Issuer"],
-                    ValidateIssuer = true
+                    ValidateLifetime = true,
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ClockSkew = TimeSpan.Zero
                 };
+
             });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mySuperKey12345678")),
+            //       // ValidIssuer = config["Token:Issuer"],
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidIssuer = "https://localhost:44377/",
+            //        ValidAudience = "https://localhost:44377/",
+            //    };
+            //});
             return services;
         }
     }

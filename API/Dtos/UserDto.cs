@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API.Infrastructure.JWTUtility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,6 @@ namespace API.Dtos
     {
         public string Email { get; set; }
         public string DisplayName { get; set; }
-        public string Token { get; set; }
+        public JwtToken Token { get; set; }
     }
 }

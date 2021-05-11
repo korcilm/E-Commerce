@@ -2,6 +2,9 @@
 using API.Core.Interfaces;
 using API.Dtos;
 using API.Errors;
+using API.Extensions;
+using API.Infrastructure.JWTUtility;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +20,14 @@ namespace API.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ITokenService _tokenService;
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager,ITokenService tokenService)
+        private readonly IJwtService _jwtService;
+        private readonly IMapper _mapper;
+        public AccountController(SignInManager<AppUser> signInManager, IMapper mapper, UserManager<AppUser> userManager, IJwtService jwtService)
         {
-            _tokenService = tokenService;
+            _jwtService = jwtService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
@@ -38,12 +43,18 @@ namespace API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _jwtService.GenerateJWTToken(user)
             };
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto) {
+
+            if (CheckEmailExistAsync(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = new[] { "Email address is in use" } });
+            }
+            
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
@@ -57,7 +68,7 @@ namespace API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = _tokenService.CreateToken(user)
+                Token = _jwtService.GenerateJWTToken(user)
             };
         }
 
@@ -65,13 +76,12 @@ namespace API.Controllers
         [HttpGet("getcurrentuser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByUserByClaimsPrincipleEithAddressAsync(HttpContext.User);
 
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Token = _tokenService.CreateToken(user),
+                Token = _jwtService.GenerateJWTToken(user),
                 Email = user.Email
             };
         }
@@ -84,12 +94,23 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("address")]
-        public async Task<ActionResult<Address>> GetUserAddress()
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByUserByClaimsPrincipleEithAddressAsync(HttpContext.User);
 
-            return user.Address;
+            return _mapper.Map<Address,AddressDto>(user.Address);
         }
+        [Authorize]
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
+        {
+            var user = await _userManager.FindByUserByClaimsPrincipleEithAddressAsync(HttpContext.User);
+            user.Address = _mapper.Map<AddressDto, Address>(address);
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+                return Ok(_mapper.Map<Address, AddressDto>(user.Address));
+            return BadRequest("Update Error occured");
+        }
+
     }
 }
