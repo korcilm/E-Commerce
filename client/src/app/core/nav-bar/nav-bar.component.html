@@ -1,25 +1,83 @@
-<div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-1 px-md-4 mb-3 bg-white border-bottom box-shadow fixed-top">
-    <img src="/assets/images/logo.png" style="max-height: 70px;" class="logo" alt="logo" [routerLink]="['/']">
-    <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger;">
-      <a class="p-2" routerLink="/"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" >Home</a>
-      <a class="p-2" routerLink="/shop" routerLinkActive="active" >Shop</a>
-      <a class="p-2" routerLink="/" >Contact</a>
-    </nav>
-    <div class="d-flex align-items-center">
-        <a routerLink="/basket" class=" position-relative"> 
-            <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-            <div *ngIf="(basket$ | async) as basket" class="cart-no">{{basket.items.length}}</div>
-        </a>
-        
-        <ng-container *ngIf="(currentUser$ |async)===null">
-            <a routerLink="/account/login" class="btn btn-outline-success mr-2" href="#">Login</a>
-            <a routerLink="/account/register" class="btn btn-outline-primary mr-3" href="#">Sign up</a>
-        </ng-container>
+<div
+  class="
+    d-flex
+    flex-column flex-md-row
+    align-items-center
+    justify-content-between
+    p-1
+    px-md-4
+    mb-3
+    bg-white
+    border-bottom
+    box-shadow
+    fixed-top
+  "
+>
+  <img
+    src="/assets/images/logo.png"
+    style="max-height: 70px"
+    class="logo"
+    alt="logo"
+    [routerLink]="['/']"
+  />
+  <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger">
+    <a
+      class="p-2"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Home</a
+    >
+    <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
+    <a class="p-2" routerLink="/">Contact</a>
+  </nav>
+  <div class="d-flex align-items-center">
+    <a routerLink="/basket" class="position-relative">
+      <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
+      <div *ngIf="basket$ | async as basket" class="cart-no">
+        {{ basket.items.length }}
+      </div>
+    </a>
 
-        <ng-container *ngIf="currentUser$ |async">
-            <a href="#"> Welcome {{(currentUser$|async).displayName}}</a>
-        </ng-container>
-        
+    <ng-container *ngIf="(currentUser$ | async) === null">
+      <a
+        routerLink="/account/login"
+        class="btn btn-outline-success mr-2"
+        href="#"
+        >Login</a
+      >
+      <a
+        routerLink="/account/register"
+        class="btn btn-outline-primary mr-3"
+        href="#"
+        >Sign up</a
+      >
+    </ng-container>
 
-    </div>
+    <ng-container *ngIf="currentUser$ | async">
+      <div class="btn-group" dropdown>
+        <button
+          id="button-basic"
+          dropdownToggle
+          type="button"
+          class="btn btn-primary dropdown-toggle text-white"
+          aria-controls="dropdown-basic"
+        >
+            Welcome {{ (currentUser$ | async).displayName }}
+          <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu   class="dropdown-menu" role="menu" aria-labelledby="button-basic" >
+          <li role="menuitem">
+            <a routerLink="/basket" class="dropdown-item" href="#">View Basket</a>
+          </li>
+          <li role="menuitem">
+            <a routerLink="/orders" class="dropdown-item" href="#">View Orders</a>
+          </li>
+          <li role="menuitem">
+              <a (click)="logOut()" class="dropdown-item" href="#">Logout</a>
+            </li>
+        </ul>
+      </div>
+    </ng-container>
+  </div>
 </div>

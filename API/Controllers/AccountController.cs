@@ -43,7 +43,7 @@ namespace API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = _jwtService.GenerateJWTToken(user)
+                Token = _jwtService.GenerateJWTToken(user).Token
             };
         }
 
@@ -68,7 +68,7 @@ namespace API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = _jwtService.GenerateJWTToken(user)
+                Token = _jwtService.GenerateJWTToken(user).Token
             };
         }
 
@@ -81,7 +81,7 @@ namespace API.Controllers
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Token = _jwtService.GenerateJWTToken(user),
+                Token = _jwtService.GenerateJWTToken(user).Token,
                 Email = user.Email
             };
         }
