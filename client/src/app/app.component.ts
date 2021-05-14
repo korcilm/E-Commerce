@@ -18,14 +18,12 @@ export class AppComponent {
 
   loadCurrentUser(){
     const token=localStorage.getItem('token');
-    if (token) {
       this.accountService.loadCurrentUser(token).subscribe(()=>{ 
         console.log('LOaded User');
       },(error)=>{
           console.log(error);
         }
       )
-    }
   }
 
   loadBasket(){

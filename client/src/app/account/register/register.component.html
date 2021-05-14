@@ -1,1 +1,40 @@
-<p>register works!</p>
+<div class="d-flex justify-content-center">
+    <div class="col-5">
+      <div class="card p-5">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Display Name</label>
+            <input formControlName="displayName" type="text" class="form-control" />
+            <span class="text-danger" *ngIf="registerForm.get('displayName').invalid && registerForm.get('displayName').touched && registerForm.get('displayName').errors['required']">
+                Display name is required
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Email address</label>
+            <input formControlName="email" type="email" class="form-control" />
+            <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['required']">
+                Email address is required
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['pattern']">
+                Email address is not valid
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched && registerForm.get('email').errors['emailExists']">
+                Email address is in use
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input formControlName="password" type="password" class="form-control" />
+            <span class="text-danger" *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched && registerForm.get('password').errors['required']">
+                Password is required
+            </span>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
