@@ -1,4 +1,5 @@
 ﻿using API.Core.Interfaces;
+using API.Infrastructure.Data;
 using API.Infrastructure.Implements;
 using API.Infrastructure.JWTUtility;
 using API.Services;
@@ -19,6 +20,7 @@ namespace API.Extensions
             services.AddScoped<IOrderService , OrderService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             return services;
         }
