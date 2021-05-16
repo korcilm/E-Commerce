@@ -6,29 +6,28 @@ import { BasketService } from './basket.service';
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
-  styleUrls: ['./basket.component.css']
+  styleUrls: ['./basket.component.css'],
 })
 export class BasketComponent implements OnInit {
-
-  basket$:Observable<IBasket>;
-  basket:Basket;
-  constructor(private basketService:BasketService) { }
+  basket$: Observable<IBasket>;
+  basket: Basket;
+  constructor(private basketService: BasketService) {}
 
   ngOnInit(): void {
-    this.basket$=this.basketService.basket$;
-    this.basket$.subscribe(response=>{
-      this.basket=response;
-      console.log("Subscribe log",this.basket);
+    this.basket$ = this.basketService.basket$;
+    this.basket$.subscribe((response) => {
+      this.basket = response;
+      console.log('Subscribe log', this.basket);
     });
   }
 
-  removeBasketItem(item:IBasketItem){
+  removeBasketItem(item: IBasketItem) {
     this.basketService.removeItemFromBasket(item);
   }
-  incrementItemQuantity(item:IBasketItem){
+  incrementItemQuantity(item: IBasketItem) {
     this.basketService.incrementItemQuantity(item);
   }
-  decrementItemQuantity(item:IBasketItem){
+  decrementItemQuantity(item: IBasketItem) {
     this.basketService.decrementItemQuantity(item);
   }
 }
