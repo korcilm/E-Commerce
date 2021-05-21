@@ -44,7 +44,8 @@ namespace API.Services
 
         public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodAsync()
         {
-            return await _unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
+            var result=await _unitOfWork.Repository<DeliveryMethod>().ListAllAsync();
+            return result;
         }
 
         public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)

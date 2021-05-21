@@ -33,7 +33,7 @@ namespace API.Infrastructure.JWTUtility
             SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(issuer: jwtInfo.Issuer, audience: jwtInfo.Audience,
-                notBefore: DateTime.Now, expires: DateTime.Now.AddHours(jwtInfo.TokenExpiration), signingCredentials: credentials, claims: claim);
+                notBefore: DateTime.Now, expires: DateTime.Now.AddDays(jwtInfo.TokenExpiration), signingCredentials: credentials, claims: claim);
 
             JwtToken jwtToken = new JwtToken();
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();

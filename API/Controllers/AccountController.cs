@@ -103,7 +103,7 @@ namespace API.Controllers
         [Authorize]
         [HttpPut("address")]
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
-        {
+         {
             var user = await _userManager.FindByUserByClaimsPrincipleEithAddressAsync(HttpContext.User);
             user.Address = _mapper.Map<AddressDto, Address>(address);
             var result = await _userManager.UpdateAsync(user);
